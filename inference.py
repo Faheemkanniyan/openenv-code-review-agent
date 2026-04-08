@@ -7,12 +7,15 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class InferenceAgent:
-    def __init__(self, api_url: str = "http://127.0.0.1:7860", model: str = "gpt-4o-mini", api_key: str = None):
+    def __init__(self, api_url: str = "http://127.0.0.1:7860", model: str = "llama-3.3-70b-versatile"):
         self.api_url = api_url
         self.model = model
-        # Use provided key, or fall back to environment variable, then dummy
-        effective_key = api_key or os.environ.get("OPENAI_API_KEY", "dummy_key_for_testing")
-        self.client = OpenAI(api_key=effective_key)
+        # Use Groq API via OpenAI-compatible client
+        api_key = os.environ.get("GROQ_API_KEY", "dummy_key")
+        self.client = OpenAI(
+            api_key=api_key,
+            base_url="https://api.groq.com/openai/v1"
+        )
 
     def run_episode(self, task_difficulty: str = "medium", custom_code: str = None, language: str = "python"):
         if custom_code:
@@ -56,7 +59,7 @@ class InferenceAgent:
             # Try real LLM, fallback to Mock if it fails (e.g. Quota/Key issues)
             using_mock = False
             try:
-                if os.environ.get("OPENAI_API_KEY") and "dummy" not in os.environ.get("OPENAI_API_KEY", ""):
+                if os.environ.get("GROQ_API_KEY") and "dummy" not in os.environ.get("GROQ_API_KEY", ""):
                     llm_resp = self.client.chat.completions.create(
                         model=self.model,
                         messages=[{"role": "system", "content": "You are a code review agent."}, {"role": "user", "content": prompt}],
@@ -66,7 +69,9 @@ class InferenceAgent:
                 else:
                     using_mock = True
             except Exception as e:
-                logs.append(f"> **Notice**: AI API call failed ({str(e)[:50]}...). Falling back to simulation logic.")
+                print(f"DEBUG: API call failed: {str(e)}")
+                # Real AI failed, use deterministic simulation logic so the UI always works
+                logs.append(f"Notice: AI API call failed ({str(e)[:100]}...). Falling back to simulation logic.")
                 using_mock = True
 
             if using_mock:

@@ -16,14 +16,14 @@ def create_gradio_app(env):
         except Exception as e:
             return str(e), "Error", "Error"
 
-    def run_agent(custom_code, language, api_key):
+    def run_agent(custom_code, language):
         from inference import InferenceAgent
-        agent = InferenceAgent(api_key=api_key)
+        agent = InferenceAgent()
         logs, suggested_fix = agent.run_episode(custom_code=custom_code, language=language)
         return logs, suggested_fix
 
     with gr.Blocks(title="Code Review Simulation", theme=gr.themes.Soft()) as demo:
-        gr.Markdown("# 🤖 OpenEnv Code Review Simulation")
+        gr.Markdown("# OpenEnv Code Review Simulation")
         
         with gr.Tabs() as tabs:
             with gr.TabItem("Simulation View"):
@@ -48,15 +48,6 @@ def create_gradio_app(env):
             with gr.TabItem("Custom Code Analysis"):
                 with gr.Row():
                     with gr.Column(scale=1):
-                        with gr.Group():
-                            gr.Markdown("### 🔑 API Settings")
-                            api_key_input = gr.Textbox(
-                                label="OpenAI API Key", 
-                                placeholder="sk-...", 
-                                type="password",
-                                info="Enter your key to enable real AI analysis. If left empty, simulation mode will be used."
-                            )
-                        
                         language_select = gr.Dropdown(
                             choices=["python", "javascript", "cpp", "java", "csharp", "go", "rust"],
                             label="Programming Language",
@@ -74,9 +65,11 @@ def create_gradio_app(env):
                 
                 analyze_btn.click(
                     run_agent, 
-                    inputs=[custom_code_input, language_select, api_key_input], 
+                    inputs=[custom_code_input, language_select], 
                     outputs=[analysis_output, fix_output]
                 )
+
+
 
 
 
