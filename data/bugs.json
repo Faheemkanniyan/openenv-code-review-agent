@@ -1,0 +1,62 @@
+[
+    {
+        "id": "bug_001",
+        "difficulty": "easy",
+        "category": "syntax",
+        "code_snippet": "def calculate_total(prices):\n    total = 0\n    for p in prices\n        total += p\n    return total",
+        "bug_description": "Missing colon after the for loop statement.",
+        "expected_fix": "Add a colon at the end of `for p in prices:`",
+        "issue_keywords": ["colon", "syntax error", "missing :", "for p in prices:"],
+        "fix_keywords": ["add colon", "add :"]
+    },
+    {
+        "id": "bug_002",
+        "difficulty": "easy",
+        "category": "logic",
+        "code_snippet": "def is_even(n):\n    return n % 2 == 1",
+        "bug_description": "Incorrect boolean comparison for even numbers.",
+        "expected_fix": "Change `== 1` to `== 0`.",
+        "issue_keywords": ["== 1", "odd", "not even"],
+        "fix_keywords": ["== 0"]
+    },
+    {
+        "id": "bug_003",
+        "difficulty": "medium",
+        "category": "security",
+        "code_snippet": "import sqlite3\n\ndef get_user(username):\n    conn = sqlite3.connect('users.db')\n    cursor = conn.cursor()\n    query = f\"SELECT * FROM users WHERE username = '{username}'\"\n    cursor.execute(query)\n    return cursor.fetchone()",
+        "bug_description": "SQL injection vulnerability due to string formatting.",
+        "expected_fix": "Use parameterized queries like `cursor.execute('SELECT * FROM users WHERE username = ?', (username,))`.",
+        "issue_keywords": ["sql injection", "sqli", "string formatting", "f-string"],
+        "fix_keywords": ["parameterized", "execute(query, (username,))", "?"]
+    },
+    {
+        "id": "bug_004",
+        "difficulty": "medium",
+        "category": "memory",
+        "code_snippet": "def process_file(filename):\n    f = open(filename, 'r')\n    data = f.read()\n    # process data\n    return data",
+        "bug_description": "Unclosed file handle causing resource leak.",
+        "expected_fix": "Use a context manager (`with open(filename) as f:`) or explicitly call `f.close()`.",
+        "issue_keywords": ["unclosed", "leak", "file handle", "close"],
+        "fix_keywords": ["with open", "f.close()"]
+    },
+    {
+        "id": "bug_005",
+        "difficulty": "hard",
+        "category": "concurrency",
+        "code_snippet": "import threading\n\ncounter = 0\n\ndef increment():\n    global counter\n    local_val = counter\n    local_val += 1\n    counter = local_val\n\nthreads = [threading.Thread(target=increment) for _ in range(10)]\nfor t in threads: t.start()\nfor t in threads: t.join()",
+        "bug_description": "Race condition updating the global counter.",
+        "expected_fix": "Use a `threading.Lock()` to synchronize access to the counter.",
+        "issue_keywords": ["race condition", "synchronization", "thread-safe", "lock"],
+        "fix_keywords": ["lock", "acquire", "mutex"]
+    },
+    {
+        "id": "bug_006",
+        "difficulty": "hard",
+        "category": "security",
+        "code_snippet": "import subprocess\n\ndef ping_host(hostname):\n    command = \"ping -c 1 \" + hostname\n    subprocess.call(command, shell=True)",
+        "bug_description": "Command injection vulnerability via shell=True.",
+        "expected_fix": "Avoid shell=True and pass command arguments as a list: `subprocess.call(['ping', '-c', '1', hostname])`.",
+        "issue_keywords": ["command injection", "shell=true", "subprocess"],
+        "fix_keywords": ["shell=false", "list", "remove shell=true"]
+    }
+]

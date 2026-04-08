@@ -1,0 +1,23 @@
+name: code-review-agent-sim
+version: "1.0.0"
+description: "A Code Review Simulation Environment evaluating AI agents on PR reviews."
+
+interface:
+  reset:
+    method: "POST"
+    endpoint: "/reset"
+  step:
+    method: "POST"
+    endpoint: "/step"
+
+tasks:
+  - id: "easy"
+    description: "Detect basic syntax and logic errors in isolated functions."
+  - id: "medium"
+    description: "Detect single-file security and performance issues."
+  - id: "hard"
+    description: "Detect inter-procedural concurrency and architecture bugs."
+
+limits:
+  max_steps: 10
+  timeout: 30
