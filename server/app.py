@@ -20,6 +20,17 @@ def reset_environment(req: ResetRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+class CustomCodeRequest(BaseModel):
+    code: str
+
+@app.post("/load_custom", response_model=Observation)
+def load_custom_code(req: CustomCodeRequest):
+    try:
+        obs = env.load_custom_code(req.code)
+        return obs
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/step", response_model=StepResponse)
 def step_environment(action: Action):
     try:

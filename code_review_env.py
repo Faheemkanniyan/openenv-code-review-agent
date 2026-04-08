@@ -24,6 +24,22 @@ class CodeReviewEnv:
         
         return self._get_observation()
 
+    def load_custom_code(self, code: str) -> Observation:
+        self.steps_taken = 0
+        self.reward_state = RewardState()
+        self.task_difficulty = "custom"
+        self.current_pr = {
+            "pr_id": "custom-pr",
+            "code": code,
+            "status": "open",
+            "metadata": {
+                "id": "custom",
+                "issue_keywords": ["bug", "error", "fix", "issue", "problem", "vulnerability"],
+                "fix_keywords": ["fix", "update", "correct", "secure", "patch"]
+            }
+        }
+        return self._get_observation()
+
     def step(self, action: Action) -> StepResponse:
         if self.current_pr is None:
             raise ValueError("Environment must be reset before calling step().")
