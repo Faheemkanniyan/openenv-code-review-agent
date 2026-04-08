@@ -20,7 +20,7 @@ class RewardState(BaseModel):
     details: Dict[str, Any] = Field(default_factory=dict)
 
 class StepResponse(BaseModel):
-    observation: Observation
+    state: Observation
     reward: float
     done: bool
     info: Dict[str, Any]

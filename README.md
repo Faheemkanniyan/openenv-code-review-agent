@@ -1,3 +1,12 @@
+---
+title: OpenEnv Code Review Sim
+emoji: 🤖
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+---
+
 # OpenEnv Code Review Simulation
 
 A fully compliant Meta OpenEnv Hub environment simulating an AI code review task. The environment challenges the agent to review Pull Requests, detect bugs, suggest fixes, and accurately approve or reject changes.

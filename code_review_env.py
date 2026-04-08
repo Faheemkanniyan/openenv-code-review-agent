@@ -64,7 +64,7 @@ class CodeReviewEnv:
         }
         
         return StepResponse(
-            observation=self._get_observation(),
+            state=self._get_observation(),
             reward=reward_step,
             done=done,
             info=info

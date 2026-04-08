@@ -110,7 +110,7 @@ class InferenceAgent:
                 break
                 
             data = step_resp.json()
-            obs = data["observation"]
+            obs = data["state"]
             reward = data["reward"]
             done = data["done"]
             info = data["info"]
