@@ -1,6 +1,6 @@
 from typing import Dict, Any, Tuple
-from models import Action, RewardState
-from graders import Grader
+from env.models import Action, RewardState
+from env.graders import Grader
 
 class RewardEngine:
     @staticmethod

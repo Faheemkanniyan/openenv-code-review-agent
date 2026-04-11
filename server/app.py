@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Optional, Any, Dict
-from models import Observation, Action, StepResponse
-from code_review_env import CodeReviewEnv
+from env.models import Observation, Action, StepResponse
+from env.code_review_env import CodeReviewEnv
 import uvicorn
 import os
 

@@ -1,50 +1,44 @@
----
-title: OpenEnv Code Review Sim
-emoji: 🤖
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-pinned: false
----
+# OpenEnv Code Review Agent
 
-# OpenEnv Code Review Simulation
+A fully compliant OpenEnv environment simulating AI code review tasks.
 
-A fully compliant Meta OpenEnv Hub environment simulating an AI code review task. The environment challenges the agent to review Pull Requests, detect bugs, suggest fixes, and accurately approve or reject changes.
+## Project Structure
+- `env/`: Environment logic and OpenEnv interface implementations.
+- `server/`: FastAPI server exposing `/reset` and `/step` endpoints.
+- `data/`: JSON database for simulated bugs.
+- `inference.py`: Baseline agent and validation script.
+- `Dockerfile`: Production deployment configuration.
 
-## Environment Details
-This repository conforms to the OpenEnv specification and runs as a standalone API natively executable locally or in HuggingFace Spaces.
+## Features
+- Compliant with OpenEnv Phase-1 validation.
+- Standardized action/observation space.
+- Multi-difficulty levels (easy, medium, hard).
 
-### Action Space
-- `action_type`: string - One of `["detect_issue", "suggest_fix", "approve_pr", "reject_pr"]`
-- `description`: string - Optional reasoning
+## Local Development
 
-### Observation Space
-- `pr_id`: string - Unique identifier for the simulated PR
-- `code`: string - The buggy (or clean) code snippet
-- `status`: string - Open, Approved, or Rejected
+### 1. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
 
-### Tasks
-- `easy`: Basic syntax/logic errors.
-- `medium`: Security/performance single-file issues.
-- `hard`: Deep architectural vulnerabilities and concurrency.
+### 2. Run the Server
+```bash
+python -m server.app
+```
+Or via Docker:
+```bash
+docker build -t code-review-agent .
+docker run -p 7860:7860 code-review-agent
+```
 
-## Getting Started
-
-### Local Setup
-1. `pip install -r requirements.txt`
-2. Run Server: `python -m server.app`
-3. Optional UI: Open `http://localhost:7860/ui` in a browser.
-
-### Using the Baseline Agent
-1. Set API Key (optional for testing format): `export OPENAI_API_KEY="..."`
-2. Run inference: `python inference.py`
-
-### Testing
-Run `python -m pytest tests/`
+### 3. Run Validation
+```bash
+python inference.py
+```
 
 ## HuggingFace Deployment
-This repository includes a `Dockerfile` properly exposing the standard `7860` port. 
-To deploy:
-1. Create a HF Space (Docker template)
-2. Push repository files
-3. The Space will automatically expose the `/reset` and `/step` endpoints.
+Deployed as a Docker Space on port 7860.
+Endpoints:
+- `POST /reset`: Initialize new task.
+- `POST /step`: Submit action.
+- `GET /state`: Get current PR state.

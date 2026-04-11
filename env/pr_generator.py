@@ -15,7 +15,7 @@ class PRGenerator:
         pr_id = str(uuid.uuid4())[:8]
         return {
             "pr_id": pr_id,
-            "code": bug["code_snippet"],
+            "code": bug.get("code", bug.get("code_snippet", "No code provided")),
             "status": "open",
             "metadata": bug
         }

@@ -1,6 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
-from server.app import app
+from app import app
 from models import Action
 
 client = TestClient(app)
@@ -24,7 +24,7 @@ def test_step_environment_bounds():
     assert response.status_code == 200
     
     data = response.json()
-    assert "observation" in data
+    assert "state" in data
     assert "reward" in data
     assert "done" in data
     assert "info" in data

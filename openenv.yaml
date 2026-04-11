@@ -1,6 +1,20 @@
-name: code-review-agent-sim
+name: "code-review-agent"
+benchmark_name: "openenv-v1"
 version: "1.0.0"
 description: "A Code Review Simulation Environment evaluating AI agents on PR reviews."
+
+action_model:
+  type: "json"
+  schema:
+    action_type: "string"
+    description: "string"
+
+observation_model:
+  type: "json"
+  schema:
+    pr_id: "string"
+    code: "string"
+    status: "string"
 
 interface:
   reset:
@@ -12,11 +26,11 @@ interface:
 
 tasks:
   - id: "easy"
-    description: "Detect basic syntax and logic errors in isolated functions."
+    description: "Detect basic syntax and logic errors."
   - id: "medium"
-    description: "Detect single-file security and performance issues."
+    description: "Detect security and performance issues."
   - id: "hard"
-    description: "Detect inter-procedural concurrency and architecture bugs."
+    description: "Detect concurrency and architecture bugs."
 
 limits:
   max_steps: 10

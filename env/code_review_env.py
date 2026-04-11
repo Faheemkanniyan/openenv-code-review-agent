@@ -1,8 +1,8 @@
 from typing import Dict, Any, Optional
-from models import Observation, Action, RewardState, StepResponse
-from bug_database import BugDatabase
-from pr_generator import PRGenerator
-from reward_engine import RewardEngine
+from env.models import Observation, Action, RewardState, StepResponse
+from env.bug_database import BugDatabase
+from env.pr_generator import PRGenerator
+from env.reward_engine import RewardEngine
 
 class CodeReviewEnv:
     def __init__(self):

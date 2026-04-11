@@ -1,6 +1,6 @@
 import re
 from typing import List, Dict, Any
-from models import Action
+from env.models import Action
 
 class Grader:
     @staticmethod
@@ -24,4 +24,5 @@ class Grader:
     @staticmethod
     def should_approve(metadata: Dict[str, Any]) -> bool:
         """If metadata has bug info, it shouldn't be approved."""
-        return metadata.get("id") == "none"
+        # Clean PRs have id 'none' or 'clean' (depends on generator)
+        return metadata.get("id") in ["none", "clean"]
